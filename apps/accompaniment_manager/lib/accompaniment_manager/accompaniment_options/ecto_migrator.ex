@@ -3,7 +3,7 @@ defmodule AccompanimentManager.AccompanimentOptions.EctoMigrator do
   @behaviour AccompanimentOptions
 
   @docker_bin "/usr/bin/docker"
-  @ecto_migrator_image "bossdjbradley/ecto_migrator"
+  @ecto_migrator_image "tolerable/ecto_migrator"
   @fleet_bin "/usr/bin/fleetctl"
 
   # CALLBACKS
