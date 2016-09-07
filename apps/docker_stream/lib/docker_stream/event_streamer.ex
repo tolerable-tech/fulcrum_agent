@@ -2,15 +2,20 @@ defmodule DockerStream.EventStreamer do
   alias DockerStream.DockerApi
   alias DockerStream.EventProcessor
   use GenServer
+  import Supervisor.Spec, only: [worker: 2]
   @name __MODULE__
   @self __MODULE__
+
+  def add_to_supervisor do
+    Supervisor.start_child(DockerStream.Supervisor, worker(@name, []))
+  end
 
   def start_link() do
     GenServer.start_link(@name, [], name: @name)
   end
 
   def init(docker_endpoint) do
-    tid = initialize_stream
+    tid = request_events
 
     {:ok, %{tid: tid, fulcrum_name: Application.get_env(:fulcrum_agent, :fulcrum_app), rid: nil}}
   end
@@ -37,10 +42,6 @@ defmodule DockerStream.EventStreamer do
 
   def request_events do
     spawn_link(@name, :listen, []) |> DockerApi.stream_events
-  end
-
-  def initialize_stream do
-    request_events
   end
 
   def listen do
@@ -75,7 +76,7 @@ defmodule DockerStream.EventStreamer do
   end
 
   def handle_cast({:stream_died}, state) do
-    {:noreply, %{state | tid: initialize_stream}}
+    {:noreply, %{state | tid: request_events}}
   end
 
   def handle_cast({:streamer_request_id, id}, state) do

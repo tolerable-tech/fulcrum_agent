@@ -10,7 +10,7 @@ defmodule DockerStream do
       # Define workers and child supervisors to be supervised
       worker(DockerStream.RegistrationAgent, []),
       worker(DockerStream.Broadcaster, []),
-      worker(DockerStream.EventStreamer, [])
+      #worker(DockerStream.EventStreamer, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
