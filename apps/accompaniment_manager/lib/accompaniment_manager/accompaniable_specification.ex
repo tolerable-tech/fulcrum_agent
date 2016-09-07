@@ -1,4 +1,7 @@
 defmodule AccompanimentManager.AccompaniableSpecification do
+
+  defstruct([instance_id: 0, owner_id: 0, fleet_name: "", container_name: "", component_name: ""])
+
   @type t :: %__MODULE__{
     instance_id: non_neg_integer,
     owner_id: non_neg_integer,
@@ -6,8 +9,6 @@ defmodule AccompanimentManager.AccompaniableSpecification do
     container_name: binary,
     component_name: binary
   }
-
-  defstruct([instance_id: 0, owner_id: 0, fleet_name: "", container_name: "", component_name: ""])
 
   def from(ins = %{}) do
     %__MODULE__{

@@ -12,7 +12,7 @@ defmodule AccompanimentManager.Api do
     |> Enum.map(&launch(&1, acc_spec))
   end
 
-  def launch(acc, acc_spec = %AccompaniableSpecification{}) do
+  def launch(acc, acc_spec = %{}) do
     AccompanimentOptions.for(acc, acc_spec)
     |> UnitFile.build
     |> send_to_fleet
